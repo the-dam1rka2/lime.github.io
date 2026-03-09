@@ -212,46 +212,35 @@
                 text = '<p>Мы — команда энтузиастов, создающих полезные и интересные проекты. Наша цель — делиться знаниями и помогать другим.</p>';
                 break;
             case 'mech1':
-                title = '🔧 Особые крафты';
-                text = `
-                    <p>На этой странице собраны все особые рецепты крафтов. Ниже вы найдёте изображения и описания каждого предмета.</p>
-                    <div class="craft-grid">
-                        <div class="craft-card">
-                            <img src="https://via.placeholder.com/200x120?text=Крафт+1" alt="Крафт 1">
-                            <div class="craft-caption">Бирка</div>
-                        </div>
-                        <div class="craft-card">
-                            <img src="images/image_2026-01-17_14-12-42.png" alt="lupa">
-                            <div class="craft-caption">Лупа</div>
-                            <div class="craft-caption">Смотрите кто украл ваши вещи. Активируется когда меняешь слот с лупой на другой и возвращаешь обратно.</div>
-                        </div>
-                        <div class="craft-card">
-                            <img src="https://via.placeholder.com/200x120?text=Крафт+3" alt="Крафт 3">
-                            <div class="craft-caption">Печенька с предсказанием</div>
-                        </div>
-                        <div class="craft-card">
-                            <img src="https://via.placeholder.com/200x120?text=Крафт+4" alt="Крафт 4">
-                            <div class="craft-caption">Петарда</div>
-                        </div>
-                        <div class="craft-card">
-                            <img src="https://via.placeholder.com/200x120?text=Крафт+5" alt="Крафт 5">
-                            <div class="craft-caption">Кристалл удачи — алмаз + золото</div>
-                        </div>
-                        <div class="craft-card">
-                            <img src="https://via.placeholder.com/200x120?text=Крафт+6" alt="Крафт 6">
-                            <div class="craft-caption">Кольцо огня — магма + блок железа</div>
-                        </div>
-                        <div class="craft-card">
-                            <img src="https://via.placeholder.com/200x120?text=Крафт+7" alt="Крафт 7">
-                            <div class="craft-caption">Крылья летучей мыши — перья + уголь</div>
-                        </div>
-                        <div class="craft-card">
-                            <img src="https://via.placeholder.com/200x120?text=Крафт+8" alt="Крафт 8">
-                            <div class="craft-caption">Глаз портала — эндер-жемчуг + редстоун</div>
-                        </div>
-                    </div>
-                `;
-                break;
+    title = '🔧 Особые крафты';
+    text = `
+        <p>На этой странице собраны все особые рецепты крафтов, доступные на сервере LimeCraft. Ниже вы найдёте изображения и описания каждого предмета.</p>
+
+        <div style="display: flex; flex-direction: column; gap: 40px; margin-top: 30px;">
+
+            <div style="text-align: center;">
+                <img src="images/image_2026-01-17_14-12-42.png"
+                     alt="Вор"
+                     style="width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                <div style="font-style: italic; color: #7f8c8d; margin-top: 15px; font-size: 18px; border-bottom: 1px dashed #ccc; padding-bottom: 20px;">
+                    Смотрите кто украл ваши вещи. Активируется когда меняешь слот с лупой на другой и возвращаешь обратно.
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="images/photo_2026-01-17_14-19-29.jpg"
+                     alt="Печенька с предсказанием"
+                     style="width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                <div style="font-style: italic; color: #7f8c8d; margin-top: 15px; font-size: 18px; border-bottom: 1px dashed #ccc; padding-bottom: 20px;">
+                    Съешь и узнай, что тебе подготовила судьба!
+                </div>
+            </div>
+
+            <!-- Добавляй ещё блоки точно так же -->
+
+        </div>
+    `;
+    break;
             case 'mech2':
                 title = '🍺 Пивоварение (BreweryX)';
                 text = '<p><strong>Описание:</strong> Вторая механика управляет динамическими сценариями. Она активируется при определённых условиях и может менять поведение интерфейса.</p><p>Пример: анимации, плавные переходы, адаптивные подсказки.</p>';
