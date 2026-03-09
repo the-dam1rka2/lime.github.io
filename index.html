@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт с боковой панелью</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            width: 260px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #34495e;
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: background 0.2s, border-left 0.2s;
+            border-left: 4px solid transparent;
+            font-size: 16px;
+        }
+
+        .sidebar li:hover {
+            background: #34495e;
+            border-left-color: #e67e22;
+        }
+
+        .sidebar .active {
+            background: #1e2b38;
+            border-left-color: #e67e22;
+            font-weight: 500;
+        }
+
+        /* Вложенные подпункты */
+        .submenu {
+            list-style: none;
+            margin-left: 20px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .submenu li {
+            padding: 8px 20px;
+            font-size: 14px;
+            border-left: 2px solid #3e5a6f;
+        }
+
+        .sidebar li.open + .submenu,
+        .submenu:hover {
+            display: block;
+        }
+
+        /* Основной контент */
+        .main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 40px;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content-box h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 500;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .content-box p {
+            line-height: 1.7;
+            color: #2c3e50;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 10px 0;
+            }
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Боковая панель -->
+<div class="sidebar">
+    <h2>📚 Навигация</h2>
+    <ul>
+        <li onclick="showContent('home')">🏠 Главная</li>
+        <li onclick="showContent('about')">ℹ️ О нас</li>
+        <li onclick="toggleSubmenu(this)">⚙️ Механики <span style="float:right;">▼</span></li>
+        <ul class="submenu">
+            <li onclick="showContent('mech1')">🔧 Механика 1</li>
+            <li onclick="showContent('mech2')">⚡ Механика 2</li>
+            <li onclick="showContent('mech3')">🛠️ Механика 3</li>
+        </ul>
+        <li onclick="showContent('contact')">📞 Контакты</li>
+    </ul>
+</div>
+
+<!-- Основная область -->
+<div class="main" id="main-content">
+    <div class="content-box" id="content-display">
+        <h1>Добро пожаловать!</h1>
+        <p>Выберите раздел в боковом меню.</p>
+        <p>Здесь может быть ваш текст, описание проекта или любая информация.</p>
+    </div>
+</div>
+
+<script>
+    // Функция для показа контента
+    function showContent(section) {
+        const contentDiv = document.getElementById('content-display');
+        let title = '';
+        let text = '';
+
+        switch(section) {
+            case 'home':
+                title = '🏠 Главная';
+                text = '<p>Это главная страница. Здесь можно разместить приветствие, новости или краткое описание сайта.</p>';
+                break;
+            case 'about':
+                title = 'ℹ️ О нас';
+                text = '<p>Мы — команда энтузиастов, создающих полезные и интересные проекты. Наша цель — делиться знаниями и помогать другим.</p>';
+                break;
+            case 'mech1':
+                title = '🔧 Механика 1: Основы';
+                text = '<p><strong>Описание:</strong> Первая механика отвечает за базовые взаимодействия в системе. Она включает в себя правила обработки данных и логику первого уровня.</p><p>Пример: если пользователь нажимает кнопку, запускается процесс проверки.</p>';
+                break;
+            case 'mech2':
+                title = '⚡ Механика 2: Продвинутая';
+                text = '<p><strong>Описание:</strong> Вторая механика управляет динамическими сценариями. Она активируется при определённых условиях и может менять поведение интерфейса.</p><p>Пример: анимации, плавные переходы, адаптивные подсказки.</p>';
+                break;
+            case 'mech3':
+                title = '🛠️ Механика 3: Интеграция';
+                text = '<p><strong>Описание:</strong> Третья механика отвечает за связь с внешними сервисами и обработку сложных запросов. Без неё невозможна работа с базами данных и API.</p><p>Пример: загрузка данных с сервера, отправка форм.</p>';
+                break;
+            case 'contact':
+                title = '📞 Контакты';
+                text = '<p>Email: example@mail.com</p><p>Телефон: +7 (123) 456-78-90</p><p>GitHub: github.com/username</p>';
+                break;
+            default:
+                title = 'Страница не найдена';
+                text = '<p>Такого раздела пока нет.</p>';
+        }
+
+        contentDiv.innerHTML = `<h1>${title}</h1>${text}`;
+
+        // Подсветка активного пункта меню (упрощённо)
+        document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+
+    // Функция для показа/скрытия подменю (по клику на "Механики")
+    function toggleSubmenu(element) {
+        const submenu = element.nextElementSibling;
+        if (submenu && submenu.classList.contains('submenu')) {
+            if (submenu.style.display === 'block') {
+                submenu.style.display = 'none';
+                element.innerHTML = '⚙️ Механики <span style="float:right;">▼</span>';
+            } else {
+                submenu.style.display = 'block';
+                element.innerHTML = '⚙️ Механики <span style="float:right;">▲</span>';
+            }
+        }
+    }
+
+    // Инициализация: при загрузке показываем Главную
+    window.onload = function() {
+        // По умолчанию подменю скрыто
+        document.querySelector('.submenu').style.display = 'none';
+        // Можно добавить обработчик для первого пункта
+    };
+</script>
+
+</body>
+</html>
