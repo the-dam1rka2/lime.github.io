@@ -198,6 +198,9 @@
 <script>
     // Функция для показа контента
     function showContent(section) {
+        // Сохраняем выбранный раздел
+        localStorage.setItem('lastSection', section);
+
         const contentDiv = document.getElementById('content-display');
         let title = '';
         let text = '';
@@ -212,36 +215,35 @@
                 text = '<p>Мы — команда энтузиастов, создающих полезные и интересные проекты. Наша цель — делиться знаниями и помогать другим.</p>';
                 break;
             case 'mech1':
-    title = '🔧 Особые крафты';
-    text = `
-        <p>На этой странице собраны все особые рецепты крафтов, доступные на сервере LimeCraft. Ниже вы найдёте изображения и описания каждого предмета.</p>
+                title = '🔧 Особые крафты';
+                text = `
+                    <p>На этой странице собраны все особые рецепты крафтов, доступные на сервере LimeCraft. Ниже вы найдёте изображения и описания каждого предмета.</p>
 
-        <div style="display: flex; flex-direction: column; gap: 40px; margin-top: 30px;">
+                    <div style="display: flex; flex-direction: column; gap: 40px; margin-top: 30px;">
 
-            <div style="text-align: center;">
-                <img src="images/image_2026-01-17_14-12-42.png"
-                     alt="лупа"
-                     style="width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                <div style="font-style: italic; color: #7f8c8d; margin-top: 15px; font-size: 18px; border-bottom: 1px dashed #ccc; padding-bottom: 20px;">
-                    Лупа. Смотрите кто украл ваши вещи. Активируется когда меняешь слот с лупой на другой и возвращаешь обратно.
-                </div>
-            </div>
+                        <div style="text-align: center;">
+                            <img src="images/image_2026-01-17_14-12-42.png"
+                                 alt="лупа"
+                                 style="width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                            <div style="font-style: italic; color: #7f8c8d; margin-top: 15px; font-size: 18px; border-bottom: 1px dashed #ccc; padding-bottom: 20px;">
+                                Лупа. Смотрите кто украл ваши вещи. Активируется когда меняешь слот с лупой на другой и возвращаешь обратно.
+                            </div>
+                        </div>
 
-            <div style="text-align: center;">
-                <img src="images/photo_2026-01-17_14-19-29.jpg"
-                     alt="Печенька с предсказанием"
-                     style="width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                <div style="font-style: italic; color: #7f8c8d; margin-top: 15px; font-size: 18px; border-bottom: 1px dashed #ccc; padding-bottom: 20px;">
-                Печенька с предсказанием
-                    Съешь и узнай, что тебе подготовила судьба!
-                </div>
-            </div>
+                        <div style="text-align: center;">
+                            <img src="images/photo_2026-01-17_14-19-29.jpg"
+                                 alt="Печенька с предсказанием"
+                                 style="width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                            <div style="font-style: italic; color: #7f8c8d; margin-top: 15px; font-size: 18px; border-bottom: 1px dashed #ccc; padding-bottom: 20px;">
+                                Печенька с предсказанием. Съешь и узнай, что тебе подготовила судьба!
+                            </div>
+                        </div>
 
-            <!-- Добавляй ещё блоки точно так же -->
+                        <!-- Добавляй ещё блоки точно так же -->
 
-        </div>
-    `;
-    break;
+                    </div>
+                `;
+                break;
             case 'mech2':
                 title = '🍺 Пивоварение (BreweryX)';
                 text = '<p><strong>Описание:</strong> Вторая механика управляет динамическими сценариями. Она активируется при определённых условиях и может менять поведение интерфейса.</p><p>Пример: анимации, плавные переходы, адаптивные подсказки.</p>';
@@ -261,10 +263,15 @@
 
         contentDiv.innerHTML = `<h1>${title}</h1>${text}`;
 
-        // Подсветка активного пункта меню (упрощённо)
+        // Подсветка активного пункта меню
         document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+        
+        // Ищем пункт меню, который содержит этот раздел
         if (event && event.target) {
             event.target.classList.add('active');
+        } else {
+            // Если нет event (например при загрузке), подсвечиваем через сохранённый раздел
+            highlightMenuItem(section);
         }
     }
 
@@ -282,11 +289,54 @@
         }
     }
 
-    // Инициализация: при загрузке показываем Главную
+    // Функция для подсветки пункта меню (особенно для подпунктов)
+    function highlightMenuItem(section) {
+        document.querySelectorAll('.sidebar li').forEach(li => {
+            // Проверяем, есть ли у этого пункта onclick с нужным разделом
+            const onclick = li.getAttribute('onclick');
+            if (onclick && onclick.includes(section)) {
+                li.classList.add('active');
+            }
+        });
+        
+        // Особый случай для механик (подпункты не сохраняют активное состояние красиво)
+        if (section.startsWith('mech')) {
+            // Подсвечиваем родительский пункт "Механики"
+            const mechanicsItem = Array.from(document.querySelectorAll('.sidebar li')).find(
+                li => li.innerText.includes('Механики')
+            );
+            if (mechanicsItem) mechanicsItem.classList.add('active');
+            
+            // Автоматически раскрываем подменю, если нужно
+            const submenu = document.querySelector('.submenu');
+            if (submenu && submenu.style.display !== 'block') {
+                // Имитируем клик на "Механики"
+                const mechanicsToggle = Array.from(document.querySelectorAll('.sidebar li')).find(
+                    li => li.innerText.includes('Механики')
+                );
+                if (mechanicsToggle) {
+                    mechanicsToggle.click();
+                }
+            }
+        }
+    }
+
+    // Инициализация: при загрузке показываем последнюю открытую страницу
     window.onload = function() {
         // По умолчанию подменю скрыто
         const submenu = document.querySelector('.submenu');
         if (submenu) submenu.style.display = 'none';
+
+        // Читаем сохранённый раздел
+        const lastSection = localStorage.getItem('lastSection');
+        
+        if (lastSection) {
+            // Показываем сохранённый раздел
+            showContent(lastSection);
+        } else {
+            // Если ничего не сохранено, показываем главную
+            showContent('home');
+        }
     };
 </script>
 
