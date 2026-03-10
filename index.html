@@ -197,6 +197,75 @@
             font-style: italic;
         }
 
+        /* Стили для команд */
+        .commands-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .command-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #e67e22;
+        }
+
+        .command-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 600;
+            border-bottom: 1px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .command-block {
+            background: #2c3e50;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .command-block code {
+            color: #e67e22;
+            font-size: 16px;
+        }
+
+        .command-section ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .command-section li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .command-section li:before {
+            content: "•";
+            color: #e67e22;
+            font-weight: bold;
+            position: absolute;
+            left: 5px;
+        }
+
+        .command-section p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .command-section strong {
+            color: #e67e22;
+        }
+
         /* Сетка для карточек с крафтами */
         .craft-grid {
             display: grid;
@@ -264,7 +333,7 @@
         <ul class="submenu">
             <li onclick="showContent('mech1')">Особые крафты</li>
             <li onclick="showContent('mech2')">Пивоварение</li>
-            <li onclick="showContent('mech3')">Кастомизация</li>
+            <li onclick="showContent('mech3')">Команды</li>
         </ul>
     </ul>
 </div>
@@ -340,6 +409,24 @@
                             </div>
                         </div>
 
+                        <div style="text-align: center;">
+                            <img src="images/keycard.png"
+                                 alt="Ключ-карта"
+                                 style="width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                            <div style="font-style: italic; color: #7f8c8d; margin-top: 15px; font-size: 18px; border-bottom: 1px dashed #ccc; padding-bottom: 20px;">
+                                Ключ-карта. Служит для открывания железных люков и дверей. Потенциал данного предмета изучен не до конца.
+                            </div>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <img src="images/petarda.png"
+                                 alt="Петарда"
+                                 style="width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                            <div style="font-style: italic; color: #7f8c8d; margin-top: 15px; font-size: 18px; border-bottom: 1px dashed #ccc; padding-bottom: 20px;">
+                                Петарда. Бум!
+                            </div>
+                        </div>
+
                         <!-- Добавляй ещё блоки точно так же -->
 
                     </div>
@@ -350,8 +437,62 @@
                 text = '<p><strong>Описание:</strong> Вторая механика управляет динамическими сценариями. Она активируется при определённых условиях и может менять поведение интерфейса.</p><p>Пример: анимации, плавные переходы, адаптивные подсказки.</p>';
                 break;
             case 'mech3':
-                title = '🎨 Кастомизация';
-                text = '<p><strong>Описание:</strong> Третья механика отвечает за связь с внешними сервисами и обработку сложных запросов. Без неё невозможна работа с базами данных и API.</p><p>Пример: загрузка данных с сервера, отправка форм.</p>';
+                title = '🎨 Команды';
+                text = `
+                    <div class="commands-container">
+                        <div class="command-section">
+                            <h3>💌 Валентинки</h3>
+                            <p>Чтобы создать валентинку, вам нужно иметь <strong>15 штук бумаги</strong> и написать команду:</p>
+                            <div class="command-block">
+                                <code>/valentin "&lt;ваш текст&gt;"</code>
+                            </div>
+                        </div>
+
+                        <div class="command-section">
+                            <h3>🎵 Музыкальные пластинки</h3>
+                            <p>Команда для создания пластинки:</p>
+                            <div class="command-block">
+                                <code>/cd create &lt;имя файла.mp3&gt; &lt;имя для пластинки&gt;</code>
+                            </div>
+                            <ul>
+                                <li><strong>Как работает:</strong> нужно держать пластинку в руке</li>
+                                <li><strong>&lt;имя файла.mp3&gt;</strong> — файл музыки, который загружен на сервер</li>
+                                <li><strong>Хотите загрузить свою музыку?</strong> Скиньте её в обсуждение в Telegram</li>
+                            </ul>
+                        </div>
+
+                        <div class="command-section">
+                            <h3>🖼️ Скины</h3>
+                            <div class="command-block">
+                                <code>/skin url &lt;ссылка на ваш скин&gt; SLIM or WIDE</code><br>
+                                <code>/skin set &lt;имя учетной записи&gt; SLIM or WIDE</code>
+                            </div>
+                            <p><strong>SLIM</strong> — для тонкой модели скина (например, Java-скины новых версий)</p>
+                            <p><strong>WIDE</strong> — для стандартной широкой модели</p>
+                        </div>
+
+                        <div class="command-section">
+                            <h3>🪑 GSit (Сиденье)</h3>
+                            <div class="command-block">
+                                <code>/sit</code>
+                            </div>
+                            <ul>
+                                <li>Позволяет сесть на любой блок</li>
+                                <li>Работает даже на чужих территориях (обходит приваты)</li>
+                                <li>Если встать на ступеньку, плиту или ковёр — игрок автоматически сядет ровно</li>
+                                <li><strong>Альтернатива:</strong> нажмите ПКМ пустой рукой по ступеньке</li>
+                            </ul>
+
+                            <div class="command-block" style="margin-top: 15px;">
+                                <code>/lay</code>
+                            </div>
+                            <ul>
+                                <li>Позволяет лечь где угодно</li>
+                                <li>Голова игрока окажется на том блоке, на котором он стоял</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
                 break;
             case 'contact':
                 title = '📜 Правила сервера';
